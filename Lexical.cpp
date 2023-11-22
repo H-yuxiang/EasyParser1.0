@@ -2,16 +2,16 @@
 #include "Lexical.h"
 
 /************************************************
-Àà±ğ£º¸÷DFA»ùÀà
+ç±»åˆ«ï¼šå„DFAåŸºç±»
 *************************************************/
 DFA::DFA()
 {
 }
 
 /************************************************
-Àà±ğ£ºÊ¶±ğ¹Ø¼ü×ÖµÄDFAÊµÏÖ
-	´´½¨keywordsºÍË÷ÒıµÄstd::mapping¹ØÏµ
-	ÅĞ¶ÏÊÇ·ñ±»¹Ø¼ü×ÖDFA½ÓÊÜ
+ç±»åˆ«ï¼šè¯†åˆ«å…³é”®å­—çš„DFAå®ç°
+	åˆ›å»ºkeywordså’Œç´¢å¼•çš„std::mappingå…³ç³»
+	åˆ¤æ–­æ˜¯å¦è¢«å…³é”®å­—DFAæ¥å—
 *************************************************/
 KeyWordsDFA::KeyWordsDFA()
 {
@@ -21,9 +21,9 @@ KeyWordsDFA::KeyWordsDFA()
 }
 int KeyWordsDFA::isAccepted(const std::string& str, int& start, int& end, int& row, int& col)
 {
-	int pos = start;//µ±Ç°¶ÁÈëµÄÎ»ÖÃ
-	int cur_col = col;//µ±Ç°¶ÁÈëÁĞ
-	std::string nowWord = "";//µ±Ç°Ê¶±ğµÄµ¥´Ê
+	int pos = start;//å½“å‰è¯»å…¥çš„ä½ç½®
+	int cur_col = col;//å½“å‰è¯»å…¥åˆ—
+	std::string nowWord = "";//å½“å‰è¯†åˆ«çš„å•è¯
 
 	while (true) {
 		if (isLetter(str[pos])) {
@@ -36,7 +36,7 @@ int KeyWordsDFA::isAccepted(const std::string& str, int& start, int& end, int& r
 
 	auto it = KeyWordsmap.find(nowWord);
 	if (it != KeyWordsmap.end()) {
-		//Èç¹ûÊÇ¹Ø¼ü×ÖµÄ»°,·µ»Ø¹Ø¼ü×ÖÔÚ¹Ø¼ü×ÖÊı×éÖĞµÄË÷Òı
+		//å¦‚æœæ˜¯å…³é”®å­—çš„è¯,è¿”å›å…³é”®å­—åœ¨å…³é”®å­—æ•°ç»„ä¸­çš„ç´¢å¼•
 		end = pos - 1;
 		col = cur_col;
 		return it->second;
@@ -46,15 +46,15 @@ int KeyWordsDFA::isAccepted(const std::string& str, int& start, int& end, int& r
 }
 
 /*************************************************
-Àà±ğ£ºÊ¶±ğ±êÊ¶·ûµÄDFAÊµÏÖ
-	ÅĞ¶ÏÊÇ·ñ±»±êÊ¶·ûDFA½ÓÊÜ
-	²¢½«Ê¶±ğ³öÀ´µÄ±êÊ¶·ûtoken¼ÓÈë±êÊ¶·û¼¯Àï
+ç±»åˆ«ï¼šè¯†åˆ«æ ‡è¯†ç¬¦çš„DFAå®ç°
+	åˆ¤æ–­æ˜¯å¦è¢«æ ‡è¯†ç¬¦DFAæ¥å—
+	å¹¶å°†è¯†åˆ«å‡ºæ¥çš„æ ‡è¯†ç¬¦tokenåŠ å…¥æ ‡è¯†ç¬¦é›†é‡Œ
 *************************************************/
 int IdentifierDFA::isAccepted(const std::string& str, int& start, int& end, int& row, int& col)
 {
-	int pos = start;//µ±Ç°¶ÁÈëµÄÎ»ÖÃ
-	int cur_col = col;//µ±Ç°¶ÁÈëÁĞ
-	std::string nowWord = "";//µ±Ç°Ê¶±ğµÄµ¥´Ê
+	int pos = start;//å½“å‰è¯»å…¥çš„ä½ç½®
+	int cur_col = col;//å½“å‰è¯»å…¥åˆ—
+	std::string nowWord = "";//å½“å‰è¯†åˆ«çš„å•è¯
 	while (true) {
 		if (isLetter(str[pos]) || isDigit(str[pos])) {
 			nowWord += str[pos++];
@@ -67,14 +67,14 @@ int IdentifierDFA::isAccepted(const std::string& str, int& start, int& end, int&
 		return WRONG;
 	end = pos - 1;
 	col = cur_col;
-	Identifier.insert(nowWord);//²åÈë±êÊ¶·û
-	return RIGHT;//ÈôÊ¶±ğ³É¹¦£¬·µ»ØÕıÈ·
+	Identifier.insert(nowWord);//æ’å…¥æ ‡è¯†ç¬¦
+	return RIGHT;//è‹¥è¯†åˆ«æˆåŠŸï¼Œè¿”å›æ­£ç¡®
 }
 
 /*************************************************
-Àà±ğ£ºÊ¶±ğÊıÖµµÄDFAÊµÏÖ
-	¹¹Ôìº¯Êı£¬½«×´Ì¬³õÊ¼»¯Îª½ÓÊÜÕûÊı
-	ÅĞ¶ÏÊÇ·ñ±»ÊıÖµDFA½ÓÊÜ
+ç±»åˆ«ï¼šè¯†åˆ«æ•°å€¼çš„DFAå®ç°
+	æ„é€ å‡½æ•°ï¼Œå°†çŠ¶æ€åˆå§‹åŒ–ä¸ºæ¥å—æ•´æ•°
+	åˆ¤æ–­æ˜¯å¦è¢«æ•°å€¼DFAæ¥å—
 *************************************************/
 DigitDFA::DigitDFA()
 {
@@ -85,27 +85,27 @@ int DigitDFA::isAccepted(const std::string& str, int& start, int& end, int& row,
 	if (state != SInteger)
 		return WRONG;
 	int pos = start;
-	//½ÓÊÜ×Ö·ûÖ±µ½³ö´í»òÕßÖÕÖ¹
+	//æ¥å—å­—ç¬¦ç›´åˆ°å‡ºé”™æˆ–è€…ç»ˆæ­¢
 	while (1) {
 		if (pos > str.size())
 			return WRONG;
 		if (state == SInteger) {
 			if (str[pos] >= '0' && str[pos] <= '9');
-			else if (str[pos] == '.') state = SDecimalBefore;//Ğ¡ÊıÖ®Ç° ĞÎÈç235.
-			else if (str[pos] == 'e')state = SSCIBefore;//¿ÆÑ§¼ÆÊı·¨Ö®Ç° ĞÎÈç455e
+			else if (str[pos] == '.') state = SDecimalBefore;//å°æ•°ä¹‹å‰ å½¢å¦‚235.
+			else if (str[pos] == 'e')state = SSCIBefore;//ç§‘å­¦è®¡æ•°æ³•ä¹‹å‰ å½¢å¦‚455e
 			else {
-				state = STerminal;//ÊıÖµ¶ÁÈ¡½áÊø
+				state = STerminal;//æ•°å€¼è¯»å–ç»“æŸ
 				break;
 			}
 		}
 		else if (state == SDecimalBefore) {
-			//´ËÊ±ĞÎÈç235.
-			if (str[pos] >= '0' && str[pos] <= '9') state = SDecimalAfter;//Ğ¡ÊıÖ®ºó£¬ĞÎÈç235.5
-			else if (str[pos] == 'e') state = SSCIBefore;//¿ÆÑ§¼ÆÊı·¨Ö®Ç° ĞÎÈç455.e  Óë455.0eÏàµÈ
+			//æ­¤æ—¶å½¢å¦‚235.
+			if (str[pos] >= '0' && str[pos] <= '9') state = SDecimalAfter;//å°æ•°ä¹‹åï¼Œå½¢å¦‚235.5
+			else if (str[pos] == 'e') state = SSCIBefore;//ç§‘å­¦è®¡æ•°æ³•ä¹‹å‰ å½¢å¦‚455.e  ä¸455.0eç›¸ç­‰
 			else if (str[pos] == '.') {
 				state = SERROR;
 				break;
-			}//ĞÎÈç123..  ³ö´í
+			}//å½¢å¦‚123..  å‡ºé”™
 			else {
 				state = STerminal;
 				break;
@@ -113,25 +113,25 @@ int DigitDFA::isAccepted(const std::string& str, int& start, int& end, int& row,
 		}
 		else if (state == SDecimalAfter) {
 			if (str[pos] >= '0' && str[pos] <= '9');
-			else if (str[pos] == 'e') state = SSCIBefore;//¿ÆÑ§¼ÆÊı·¨Ö®Ç° ĞÎÈç455.1e
+			else if (str[pos] == 'e') state = SSCIBefore;//ç§‘å­¦è®¡æ•°æ³•ä¹‹å‰ å½¢å¦‚455.1e
 			else if (str[pos] == '.') {
 				state = SERROR;
 				break;
-			}//ĞÎÈç123.1.  ³ö´í
+			}//å½¢å¦‚123.1.  å‡ºé”™
 			else {
 				state = STerminal;
 				break;
 			}
 		}
 		else if (state == SSCIBefore) {
-			if (str[pos] >= '0' && str[pos] <= '9') state = SSCIAfter;//¿ÆÑ§¼ÆÊı·¨Ö®ºó ĞÎÈç123e1
+			if (str[pos] >= '0' && str[pos] <= '9') state = SSCIAfter;//ç§‘å­¦è®¡æ•°æ³•ä¹‹å å½¢å¦‚123e1
 			else {
 				state = SERROR;
 				break;
 			}
 		}
 		else if (state == SSCIAfter) {
-			if (str[pos] >= '0' && str[pos] <= '9');//¿ÆÑ§¼ÆÊı·¨Ö®ºó ĞÎÈç123e12
+			if (str[pos] >= '0' && str[pos] <= '9');//ç§‘å­¦è®¡æ•°æ³•ä¹‹å å½¢å¦‚123e12
 			else if (str[pos] == 'e' || str[pos] == '.') {
 				state = SERROR;
 				break;
@@ -147,7 +147,7 @@ int DigitDFA::isAccepted(const std::string& str, int& start, int& end, int& row,
 		end = pos - 1;
 		col += pos - start;
 		std::string tmp = str.substr(start, pos - start);
-		//½«Ê¶±ğµ½µÄ×Ö·û¼ÓÈëÊıÖµ¼¯
+		//å°†è¯†åˆ«åˆ°çš„å­—ç¬¦åŠ å…¥æ•°å€¼é›†
 		Digit.insert(tmp);
 		return RIGHT;
 	}
@@ -159,15 +159,15 @@ int DigitDFA::isAccepted(const std::string& str, int& start, int& end, int& row,
 }
 
 /*************************************************
-Àà±ğ£ºÊ¶±ğ½ç·ûµÄDFAÊµÏÖ
-	²éÕÒ¸Ã×Ö·ûÊÇ·ñÔÚ½ç·û¼¯ºÏÖĞ£¬
-	ÅĞ¶ÏÊÇ·ñ±»½ç·ûDFA½ÓÊÜ
+ç±»åˆ«ï¼šè¯†åˆ«ç•Œç¬¦çš„DFAå®ç°
+	æŸ¥æ‰¾è¯¥å­—ç¬¦æ˜¯å¦åœ¨ç•Œç¬¦é›†åˆä¸­ï¼Œ
+	åˆ¤æ–­æ˜¯å¦è¢«ç•Œç¬¦DFAæ¥å—
 *************************************************/
 int DelimiterDFA::isAccepted(const std::string& str, int& start, int& end, int& row, int& col)
 {
 	int pos = start;
 	for (int i = 0; i < Delimiter_NUM; i++) {
-		//ÕÒµ½ÁË
+		//æ‰¾åˆ°äº†
 		if (str.substr(pos).find(Delimiter[i]) != -1) {
 			start = end = pos;
 			col++;
@@ -178,10 +178,10 @@ int DelimiterDFA::isAccepted(const std::string& str, int& start, int& end, int& 
 }
 
 /*************************************************
-Àà±ğ£ºÊ¶±ğËã·ûµÄDFAÊµÏÖ
-	´´½¨operatorºÍË÷ÒıµÄstd::mapping¹ØÏµ
-	ÅĞ¶ÏÊÇ·ñÄÜºÍËã·û±íÀïµÄËã·ûÆ¥ÅäÉÏ
-	Ö»ÒªÆ¥ÅäÉÏÁË£¬¾Í·µ»Ø
+ç±»åˆ«ï¼šè¯†åˆ«ç®—ç¬¦çš„DFAå®ç°
+	åˆ›å»ºoperatorå’Œç´¢å¼•çš„std::mappingå…³ç³»
+	åˆ¤æ–­æ˜¯å¦èƒ½å’Œç®—ç¬¦è¡¨é‡Œçš„ç®—ç¬¦åŒ¹é…ä¸Š
+	åªè¦åŒ¹é…ä¸Šäº†ï¼Œå°±è¿”å›
 *************************************************/
 OperatorDFA::OperatorDFA()
 {
@@ -254,7 +254,7 @@ int OperatorDFA::isAccepted(const std::string& str, int& start, int& end, int& r
 }
 
 /*************************************************
-Àà±ğ£º´Ê·¨·ÖÎö
+ç±»åˆ«ï¼šè¯æ³•åˆ†æ
 *************************************************/
 Lexical::Lexical()
 {
@@ -274,7 +274,7 @@ Lexical::~Lexical()
 	}
 }
 std::pair<int, std::vector<token>> Lexical::Analyze(std::string& input) {
-	// ±äÁ¿¶¨Òå
+	// å˜é‡å®šä¹‰
 	std::string output = "";
 	int row = 0, col = 0;
 	int SIGN = LEXICAL_RIGHT;
@@ -283,15 +283,15 @@ std::pair<int, std::vector<token>> Lexical::Analyze(std::string& input) {
 	int last_row = cur_row, last_col = cur_col;
 	std::stringstream final_str;
 
-	// tokenĞÅÏ¢
+	// tokenä¿¡æ¯
 	std::vector<token> tk_info;
 
-	// Ô¤´¦Àí
+	// é¢„å¤„ç†
 	int pre_res = Preprocess(input, row, col, output);
 	if (pre_res != RIGHT) {
 		std::ofstream outfile(LC_Wrong_Path);
 		if (!outfile.is_open()) {
-			std::cout << LC_Wrong_Path << "´ò¿ªÊ§°Ü";
+			std::cout << LC_Wrong_Path << "æ‰“å¼€å¤±è´¥";
 			return { -1 ,tk_info };
 		}
 		outfile << row << ' ' << col << "preprocess fail!\n" ;
@@ -299,12 +299,12 @@ std::pair<int, std::vector<token>> Lexical::Analyze(std::string& input) {
 		return { ERROR_Pre, tk_info };
 	}
 	
-	// ·ÖÎö
+	// åˆ†æ
 	while (1) {
 		start = end + 1;
 		if (start >= output.size())
 			break;
-		//Ô¤´¦ÀíÊä³öoutputÊ±£¬»¹ÁôÏÂ¿Õ¸ñºÍ»»ĞĞ£¬ÔÚ´¦ÀíÏÂÒ»¸ötokenÇ°£¬ÏÈÈ¥µô
+		//é¢„å¤„ç†è¾“å‡ºoutputæ—¶ï¼Œè¿˜ç•™ä¸‹ç©ºæ ¼å’Œæ¢è¡Œï¼Œåœ¨å¤„ç†ä¸‹ä¸€ä¸ªtokenå‰ï¼Œå…ˆå»æ‰
 		int pos = start;
 		while (output[pos] == ' ' || output[pos] == '\r' || output[pos] == '\n') {
 			if (output[pos] == ' ' || output[pos] == '\r') {
@@ -321,49 +321,49 @@ std::pair<int, std::vector<token>> Lexical::Analyze(std::string& input) {
 		}
 		start = pos;
 		end = pos;
-		//Ç°ÃæÃ»´í£¬ÒÔ¿Õ¸ñ»ò»»ĞĞ½áÎ²£¬ËµÃ÷Óï·¨·ÖÎöÕıÈ·
+		//å‰é¢æ²¡é”™ï¼Œä»¥ç©ºæ ¼æˆ–æ¢è¡Œç»“å°¾ï¼Œè¯´æ˜è¯­æ³•åˆ†ææ­£ç¡®
 		if (start >= output.size()) {
 			SIGN = LEXICAL_RIGHT;
 			break;
 		}
 
-		//ÕıÊ½ÅĞ¶Ïµ±Ç°ÓĞĞ§×Ö·ûµÄDFAÈë¿Ú
+		//æ­£å¼åˆ¤æ–­å½“å‰æœ‰æ•ˆå­—ç¬¦çš„DFAå…¥å£
 		int Entrance_DFA = -1;
 		char ch = output[start];
 		if (isOperator(ch)) Entrance_DFA = ENTRANCE_OPERATOR;
 		else if (isDelimiter(ch)) Entrance_DFA = ENTRANCE_DELIMITER;
 		else if (isDigit(ch)) Entrance_DFA = ENTRANCE_DIGIT;
-		//¹Ø¼ü×ÖºÍ±êÊ¶·ûµÄDFAÊ¶±ğÔÚÕâÒÑ¾­×öÁË
+		//å…³é”®å­—å’Œæ ‡è¯†ç¬¦çš„DFAè¯†åˆ«åœ¨è¿™å·²ç»åšäº†
 		if (Entrance_DFA == -1) {
-			//Ò»¶¨ÒªÏÈÅĞ¶ÏÊÇ²»ÊÇ¹Ø¼ü×Ö£¬ÔÙÈ¥ÅĞ¶ÏÊÇ²»ÊÇ±êÊ¶·û
-			int result = myDFA[ENTRANCE_KEYWORDS]->isAccepted(output, start, end, cur_row, cur_col);
+			//ä¸€å®šè¦å…ˆåˆ¤æ–­æ˜¯ä¸æ˜¯æ ‡è¯†ç¬¦ï¼Œå†å»åˆ¤æ–­æ˜¯ä¸æ˜¯å…³é”®å­—
+			int result = myDFA[ENTRANCE_IDENTIFIER]->isAccepted(output, start, end, cur_row, cur_col);
 			if (result == WRONG) {
-				//²»ÊÇ¹Ø¼ü×Ö
-				result = myDFA[ENTRANCE_IDENTIFIER]->isAccepted(output, start, end, cur_row, cur_col);
-				if (result == RIGHT)//ÊÇ±êÊ¶·û
-					Entrance_DFA = ENTRANCE_IDENTIFIER;
+				//ä¸æ˜¯æ ‡è¯†ç¬¦
+				result = myDFA[ENTRANCE_KEYWORDS]->isAccepted(output, start, end, cur_row, cur_col);
+				if (result == RIGHT)//æ˜¯å…³é”®å­—
+					Entrance_DFA = ENTRANCE_KEYWORDS;
 			}
-			else//ÊÇ¹Ø¼ü×Ö
-				Entrance_DFA = ENTRANCE_KEYWORDS;
+			else//æ˜¯æ ‡è¯†ç¬¦
+				Entrance_DFA = ENTRANCE_IDENTIFIER;
 
-			//¼ÙÈçËµEntrance_DFA»¹ÊÇÎª-1
+			//å‡å¦‚è¯´Entrance_DFAè¿˜æ˜¯ä¸º-1
 			if (Entrance_DFA == -1) {
-				//todo,³ö´íÊ¶±ğ
+				//todo,å‡ºé”™è¯†åˆ«
 				SIGN = error_sign(-1);
 			}
 		}
-		//ÕâÀï×öËã·û¡¢½ç·û¡¢Êı×ÖµÄDFAÊ¶±ğ
+		//è¿™é‡Œåšç®—ç¬¦ã€ç•Œç¬¦ã€æ•°å­—çš„DFAè¯†åˆ«
 		else {
 			int result = myDFA[Entrance_DFA]->isAccepted(output, start, end, cur_row, cur_col);
 			if (result == WRONG) {
-				//todo,³ö´íÊ¶±ğ
+				//todo,å‡ºé”™è¯†åˆ«
 				SIGN = error_sign(Entrance_DFA);
 			}
 		}
-		//ÅĞ¶Ï±¾´ÎÑ­»·ÊÇ·ñµ½½áÊø
-		if (SIGN != LEXICAL_RIGHT)//ÔÚÊ¶±ğtokenµÄ¹ı³ÌÖĞ³ö´í
+		//åˆ¤æ–­æœ¬æ¬¡å¾ªç¯æ˜¯å¦åˆ°ç»“æŸ
+		if (SIGN != LEXICAL_RIGHT)//åœ¨è¯†åˆ«tokençš„è¿‡ç¨‹ä¸­å‡ºé”™
 			break;
-		//±¾´ÎtokenÊ¶±ğ³É¹¦
+		//æœ¬æ¬¡tokenè¯†åˆ«æˆåŠŸ
 		else {
 			std::string token_tmp = output.substr(start, end - start + 1);
 			std::string token_type;
@@ -375,12 +375,12 @@ std::pair<int, std::vector<token>> Lexical::Analyze(std::string& input) {
 		}
 	}
 
-	//ÎÄ±¾Ê¶±ğÍê±Ï
-	//´Ê·¨·ÖÎöÕıÈ·£¬Êä³öµ½ÎÄ¼ş
+	//æ–‡æœ¬è¯†åˆ«å®Œæ¯•
+	//è¯æ³•åˆ†ææ­£ç¡®ï¼Œè¾“å‡ºåˆ°æ–‡ä»¶
 	if (SIGN == LEXICAL_RIGHT) {
 		std::ofstream outfile(LC_Rignt_Path);
 		if (!outfile.is_open()) {
-			std::cout << LC_Wrong_Path << "´ò¿ªÊ§°Ü";
+			std::cout << LC_Wrong_Path << "æ‰“å¼€å¤±è´¥";
 			return { -1,tk_info };
 		}
 		outfile << final_str.str();
@@ -388,11 +388,11 @@ std::pair<int, std::vector<token>> Lexical::Analyze(std::string& input) {
 		tk_info.push_back(token(last_row, 1, "#", "#"));
 		outfile.close();
 	}
-	//´Ê·¨·ÖÎö´íÎó
+	//è¯æ³•åˆ†æé”™è¯¯
 	else {
 		std::ofstream outfile(LC_Wrong_Path);
 		if (!outfile.is_open()) {
-			std::cout << LC_Wrong_Path << "´ò¿ªÊ§°Ü";
+			std::cout << LC_Wrong_Path << "æ‰“å¼€å¤±è´¥";
 			return { -1,tk_info };
 		}
 		std::string token = output.substr(start, end - start + 1);
