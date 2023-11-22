@@ -26,7 +26,7 @@ int KeyWordsDFA::isAccepted(const std::string& str, int& start, int& end, int& r
 	std::string nowWord = "";//当前识别的单词
 
 	while (true) {
-		if (isLetter(str[pos])) {
+		if (isLetter(str[pos])||isDigit(str[pos])) {
 			nowWord += str[pos++];
 			cur_col++;
 		}
@@ -335,16 +335,16 @@ std::pair<int, std::vector<token>> Lexical::Analyze(std::string& input) {
 		else if (isDigit(ch)) Entrance_DFA = ENTRANCE_DIGIT;
 		//关键字和标识符的DFA识别在这已经做了
 		if (Entrance_DFA == -1) {
-			//一定要先判断是不是标识符，再去判断是不是关键字
-			int result = myDFA[ENTRANCE_IDENTIFIER]->isAccepted(output, start, end, cur_row, cur_col);
+			//一定要先判断是不是关键字，再去判断是不是标识符
+			int result = myDFA[ENTRANCE_KEYWORDS]->isAccepted(output, start, end, cur_row, cur_col);
 			if (result == WRONG) {
-				//不是标识符
-				result = myDFA[ENTRANCE_KEYWORDS]->isAccepted(output, start, end, cur_row, cur_col);
-				if (result == RIGHT)//是关键字
-					Entrance_DFA = ENTRANCE_KEYWORDS;
+				//不是关键字
+				result = myDFA[ENTRANCE_IDENTIFIER]->isAccepted(output, start, end, cur_row, cur_col);
+				if (result == RIGHT)//是标识符
+					Entrance_DFA = ENTRANCE_IDENTIFIER;
 			}
-			else//是标识符
-				Entrance_DFA = ENTRANCE_IDENTIFIER;
+			else//是关键字
+				Entrance_DFA = ENTRANCE_KEYWORDS;
 
 			//假如说Entrance_DFA还是为-1
 			if (Entrance_DFA == -1) {
